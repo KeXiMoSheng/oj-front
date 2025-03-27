@@ -1,7 +1,7 @@
 <template>
   <div class="user-status-bar">
     <div v-if="isLoggedIn" class="logged-in">
-      <img :src="avatarUrl" alt="用户头像" class="avatar">
+      <img :src="userAvatar" alt="用户头像" class="avatar">
       <!-- 这里可以添加更多已登录状态下要显示的信息，如用户名等 -->
     </div>
     <div v-else class="not-logged-in">
@@ -20,7 +20,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  avatarUrl: {
+  userAvatar: {
     type: String,
     default: ''
   }

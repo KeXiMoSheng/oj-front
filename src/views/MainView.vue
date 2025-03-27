@@ -5,7 +5,7 @@
         <div class="menu-demo">
           <a-menu mode="horizontal" :default-selected-keys="['1']" :selected-keys="selectedKeys"
                   @menu-item-click="handleMenuItemClick">
-            >
+
             <a-menu-item key="0" :style="{ padding: 0, marginRight: '38px' }" disabled>
               <div class="horizontal-div-container">
                 <div class="single-div">
@@ -26,24 +26,24 @@
                 <div class="single-div">jun-code</div>
               </div>
             </a-menu-item>
-            <a-menu-item key="1">
-              <router-link to="/home">首页</router-link>
+            <a-menu-item key="1" @click="handleToHome">
+              首页
             </a-menu-item>
-            <a-menu-item key="2">
-              <router-link to="/questionList">题目</router-link>
+            <a-menu-item key="2" @click="handleToQuestionList">
+              题目
             </a-menu-item>
-            <a-menu-item key="3">
-              <router-link to="/articleEdit">写文章</router-link>
+            <a-menu-item key="3" @click="handleToArticleEdit">
+              写文章
             </a-menu-item>
-            <a-menu-item key="4">
-              <router-link to="/discover">发现</router-link>
+            <a-menu-item key="4" @click="handleToDiscover">
+              发现
             </a-menu-item>
           </a-menu>
         </div>
         <div class="my">
           <UserStatusBar
-              :isLoggedIn="false"
-              :avatarUrl="555"
+              :isLoggedIn="userUserStore.user?.isLoggedIn"
+              :userAvatar="userUserStore.user?.userAvatar"
               @goToRegister="handleRegisterClick"
               @goToLogin="handleLoginClick"
           />
@@ -62,7 +62,10 @@
 import router from "@/router";
 import UserStatusBar from "@/components/UserStatusBar.vue";
 import {onMounted, ref} from "vue";
+import {useUserStore} from "@/stores/userStore.ts";
+import {getUserLoginDetail} from "@/api/user";
 
+const userUserStore = useUserStore()
 const selectedKeys = ref(['1']);
 const routeMapKey = new Map<string, string>([
   ['/home', '1'],
@@ -74,6 +77,18 @@ const handleMenuItemClick = (key: string) => {
   selectedKeys.value = [key];
 };
 const activeRoute = ref(router.currentRoute.value);
+const handleToHome = () => {
+  router.push({name: 'home'});
+};
+const handleToQuestionList = () => {
+  router.push({name: 'questionList'});
+}
+const handleToArticleEdit = () => {
+  router.push({name: 'articleEdit'});
+}
+const handleToDiscover = () => {
+  router.push({name: 'discover'});
+}
 const handleRegisterClick = () => {
   router.push({name: 'register'});
 };
@@ -81,13 +96,24 @@ const handleRegisterClick = () => {
 const handleLoginClick = () => {
   router.push({name: 'login'});
 };
-onMounted(() => {
+const init = async () => {
+  let res = await getUserLoginDetail();
+  console.log(res);
+  if (res.message === 'ok') {
+    userUserStore.setUserInfo(res.data);
+  }
+}
+const handleActiveRoute =()=>{
   console.log(activeRoute.value.fullPath);
   if (routeMapKey.has(activeRoute.value.fullPath)) {
     let str = routeMapKey.get(activeRoute.value.fullPath)
     if (str != undefined)
       selectedKeys.value = [str];
   }
+} ;
+onMounted(() => {
+  handleActiveRoute();
+  init();
 })
 </script>
 <style scoped>

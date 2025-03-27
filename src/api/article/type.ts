@@ -1,3 +1,6 @@
+import type {User} from "@/api/user/type.ts";
+import type {PageRequest} from "@/api/pageRequest/type.ts";
+
 export interface Article {
     /**
      * 文章id
@@ -51,4 +54,11 @@ export interface Article {
      * 是否发布
      */
     isPublished?: number;
+    /**
+     * 文章作者
+     */
+    User?: User;
+}
+export interface ArticlePageRequest extends PageRequest {
+
 }

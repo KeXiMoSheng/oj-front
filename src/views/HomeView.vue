@@ -27,7 +27,7 @@
     </div>
     <!--    -->
     <div class="bottom">
-      <a-tabs default-active-key="1" lazy-load>
+      <a-tabs default-active-key="1" >
         <a-tab-pane v-for="(item,index) in titleList" :key="(index+1).toString()" :title="item">
           <SpecialColumnPreview v-for="(it,index) in specialColumnDetails.get(item)"
               :imageUrl="it.imageUrl"

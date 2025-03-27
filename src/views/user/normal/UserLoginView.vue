@@ -7,14 +7,14 @@
       </div>
       <form @submit.prevent="handleLogin" class="floating-form">
         <div class="input-group">
-          <input id="username" v-model.trim="loginForm.username" type="text" autocomplete="off" @input="validateInput"
-                 required/>
-          <label for="username">用户名</label>
+          <input type="email" id="email" v-model="userLoginRequest.userEmail" required/>
+          <label for="email">邮箱地址</label>
           <span class="highlight"></span>
         </div>
         <div class="input-group">
-          <input id="password" v-model.trim="loginForm.password" type="password" autocomplete="off"
-                 @input="validateInput" required/>
+          <input id="password" v-model.trim="userLoginRequest.userPassword" type="password" autocomplete="off"
+                 required minlength="8" maxlength="20"
+                 @input="validateInput"/>
           <label for="password">密码</label>
           <span class="highlight"></span>
         </div>
@@ -35,22 +35,27 @@
 <script setup lang="ts">
 import {ref, reactive, onMounted} from 'vue'
 import {useRouter} from 'vue-router'
+import type {User, UserLoginRequest} from "@/api/user/type.ts";
+import {Message} from "@arco-design/web-vue";
+import {userLogin} from "@/api/user";
+import {useUserStore} from "@/stores/userStore.ts";
 
 const router = useRouter()
 
 // 表单数据
-const loginForm = reactive({
-  username: '',
-  password: ''
+const userLoginRequest = reactive<UserLoginRequest>({
+  userEmail: '',
+  userPassword: ''
 })
-
+const user = reactive<User>({})
 const errorMsg = ref('')
 const isFormValid = ref(false)
-
+const token = ref('')
+const userUserStore = useUserStore()
 // 输入验证
 const validateInput = () => {
   // 基本验证
-  if (loginForm.username && loginForm.password) {
+  if (userLoginRequest.userEmail && userLoginRequest.userPassword) {
     isFormValid.value = true
     errorMsg.value = ''
   } else {
@@ -62,36 +67,37 @@ const validateInput = () => {
 const handleLogin = async () => {
   // 防止XSS攻击
   const xssPattern = /(~|\{|\}|"|'|<|>|\?)/g
-  if (xssPattern.test(loginForm.username) || xssPattern.test(loginForm.password)) {
-    errorMessage('警告:输入内容包含非法字符');
+  if (xssPattern.test(userLoginRequest.userEmail) || xssPattern.test(userLoginRequest.userPassword)) {
+    Message.warning('警告:输入内容包含非法字符');
     return
   }
 
   try {
     // 对输入进行转义处理
-    const safeUsername = encodeURIComponent(loginForm.username)
-    const safePassword = encodeURIComponent(loginForm.password)
+    // const safeUsername = encodeURIComponent(userLoginRequest.userEmail)
+    // const safePassword = encodeURIComponent(userLoginRequest.userPassword)
 
     // 实际的登录API调用
-    console.log('登录请求:', {username: safeUsername, password: safePassword})
+    console.log('登录请求:', {userEmail: userLoginRequest.userEmail, password: userLoginRequest.userPassword})
 
     // 模拟登录成功并设置cookie，设置过期时间为1小时
-    const expires = new Date(Date.now() + 3600 * 1000).toUTCString()
-    document.cookie = `authToken=yourAuthToken; path=/; expires=${expires}`
-
+    // const expires = new Date(Date.now() + 3600 * 1000).toUTCString()
+    // document.cookie = `authToken=yourAuthToken; path=/; expires=${expires}`
+    let res = await userLogin(userLoginRequest)
+    console.log(res)
+    if (res.message === 'ok') {
+      token.value = res.data.token
+      localStorage.setItem('token', token.value)
+      // 信息存菠萝里面
+      userUserStore.setUserInfo(res.data)
+      Message.success('登录成功')
+    }
+    console.log(token.value)
     // 跳转到主页
-    router.push('/home')
+    // await router.push('/home')
   } catch (error) {
-    errorMessage('登录失败，请稍后重试');
+    Message.error('登录失败，请稍后重试');
   }
-}
-
-// 错误提示
-const errorMessage = (question) => {
-  errorMsg.value = text
-  setTimeout(() => {
-    errorMsg.value = ''
-  }, 3000)
 }
 
 onMounted(() => {

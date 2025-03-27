@@ -19,7 +19,9 @@
         <div class="input-group verification-group">
           <input type="text" id="verificationCode" v-model="code" required maxlength="6"/>
           <label for="verificationCode">验证码</label>
-          <button type="button" @click="sendVerificationCode" class="send-code-btn">获取验证码</button>
+          <button type="button" @click="sendVerificationCode" :disabled="isCountingDown" class="send-code-btn">
+            {{ isCountingDown ? `${countdown}s` : '获取验证码' }}
+          </button>
           <span class="highlight"></span>
         </div>
         <div class="input-group">
@@ -56,6 +58,8 @@ const userEmail = ref('')
 const code = ref('')
 const userPassword = ref('')
 const checkPassword = ref('')
+const isCountingDown = ref(false)
+const countdown = ref(60)
 
 const handleRegister = async () => {
   let userRegisterRequest: UserRegisterRequest = {
@@ -71,7 +75,7 @@ const handleRegister = async () => {
   } else {
     //调用注册接口
     const res = await userRegister(userRegisterRequest)
-    if (res != null && res.message === 'ok') {
+    if (res.message === 'ok') {
       Message.success('注册成功')
     } else {
       console.log(res)
@@ -81,14 +85,25 @@ const handleRegister = async () => {
 };
 
 const sendVerificationCode = async () => {
+  if (isCountingDown.value) return
   const res = await getCode(userEmail.value)
-  if (res != null && res.message === 'ok') {
+  if (res.message === 'ok') {
     Message.success('验证码发送成功')
+    isCountingDown.value = true
+    const timer = setInterval(() => {
+      if (countdown.value > 0) {
+        countdown.value--
+      } else {
+        clearInterval(timer)
+        isCountingDown.value = false
+        countdown.value = 300
+      }
+    }, 1000)
   } else {
-    Message.error("验证码发送失败")
+    console.log(res)
+    Message.error(res.message)
   }
 }
-
 
 </script>
 
@@ -191,6 +206,12 @@ const sendVerificationCode = async () => {
 
 .send-code-btn:hover {
   background: #d0e9fd;
+}
+
+.send-code-btn:disabled {
+  background: #e0e0e0;
+  color: #95a5a6;
+  cursor: not-allowed;
 }
 
 .submit-btn {

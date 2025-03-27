@@ -6,10 +6,13 @@ import axios, {type AxiosResponse} from "axios";
 const request = axios.create({
     baseURL: baseUrl,
     timeout: 10000,
+    headers: {
+        'Authorization': localStorage.getItem('token')
+    }
 })
 
 request.interceptors.request.use(config => {
-        return config
+    return config
 })
 
 request.interceptors.response.use(

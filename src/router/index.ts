@@ -11,13 +11,16 @@ import MainView from "@/views/MainView.vue";
 import HomeView from "@/views/HomeView.vue";
 import CalendarView from "@/views/CalendarView.vue";
 import QuestionMainView from "@/views/questionViews/QuestionMainView.vue";
-import DiscussPreview from "@/components/DiscussPreview.vue";
-import TestView from "@/components/TestView.vue";
+import DiscussPreview from "@/components/ArticlePreview.vue";
 import MdEditView from "@/views/questionViews/MdEditView.vue";
 import TestSpecialColumnPreview from "@/components/TestSpecialColumnPreview.vue";
 import TestQuestionPreview from "@/components/TestQuestionPreview.vue";
-import QuestionPreview from "@/components/QuestionPreview.vue";
 import QuestionListPreview from "@/views/questionViews/QuestionListPreview.vue";
+import TestArticlePreView from "@/components/TestArticlePreView.vue";
+import TestArticleHeader from "@/components/article/TestArticleHeader.vue";
+import ArticleMainDisplay from "@/views/article/ArticleMainDisplay.vue";
+import TestDisplayComment from "@/components/article/TestDisplayComment.vue";
+import DiscoverView from "@/views/DiscoverView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,6 +43,10 @@ const router = createRouter({
                     path: 'articleEdit',
                     name: 'articleEdit',
                     component: MdEditView
+                }, {
+                    path: 'discover',
+                    name: 'discover',
+                    component: DiscoverView
                 }
             ]
         }, {
@@ -82,9 +89,9 @@ const router = createRouter({
             name: 'discuss',
             component: DiscussPreview
         }, {
-            path: '/test',
-            name: 'test',
-            component: TestView
+            path: '/testArticle',
+            name: 'testArticle',
+            component: TestArticlePreView
         }, {
             path: '/testSc',
             name: 'testSc',
@@ -93,6 +100,18 @@ const router = createRouter({
             path: '/testQuestion',
             name: 'testQuestion',
             component: TestQuestionPreview
+        },{
+            path: '/testArticleHeader',
+            name: 'testArticleHeader',
+            component: TestArticleHeader
+        },{
+            path: '/testArticleMain',
+            name: 'testArticleMain',
+            component: ArticleMainDisplay
+        },{
+            path: '/testDisplayComment',
+            name: 'testDisplayComment',
+            component: TestDisplayComment
         }
     ],
 })
