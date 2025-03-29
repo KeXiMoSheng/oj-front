@@ -113,16 +113,6 @@
               </a-tab-pane>
             </a-tabs>
           </div>
-          <div class="sider-bottom-div">
-            <QuestionInteractionBar
-                :likeCount="likeCount"
-                :commentCount="commentCount"
-                :collectCount="collectCount"
-                @like="handleLikeClick"
-                @comment="handleCommentClick"
-                @collect="handleCollectClick"
-            />
-          </div>
         </a-layout-sider>
         <a-layout-content>
           <div class="parent">
@@ -177,7 +167,7 @@
                         :title="'用例' + (index + 1)"
                     >
                       <div class="scrollable-content">
-                        <div>输入样例:
+                        <div >输入样例:
                           <MdPreview :id="id" :modelValue="example"/>
                         </div>
                         <div>输出样例:
@@ -539,6 +529,7 @@ const handleSubmit = () => {
 }
 
 .scrollable-content {
+  margin: 15px;
   overflow-y: scroll;
   height: 650px;
   color: black;

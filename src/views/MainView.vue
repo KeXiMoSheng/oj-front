@@ -63,8 +63,6 @@ import router from "@/router";
 import UserStatusBar from "@/components/UserStatusBar.vue";
 import {onMounted, ref} from "vue";
 import {useUserStore} from "@/stores/userStore.ts";
-import {getUserLoginDetail} from "@/api/user";
-
 const userUserStore = useUserStore()
 const selectedKeys = ref(['1']);
 const routeMapKey = new Map<string, string>([
@@ -96,24 +94,18 @@ const handleRegisterClick = () => {
 const handleLoginClick = () => {
   router.push({name: 'login'});
 };
-const init = async () => {
-  let res = await getUserLoginDetail();
-  console.log(res);
-  if (res.message === 'ok') {
-    userUserStore.setUserInfo(res.data);
-  }
-}
-const handleActiveRoute =()=>{
+
+const handleActiveRoute = () => {
   console.log(activeRoute.value.fullPath);
   if (routeMapKey.has(activeRoute.value.fullPath)) {
     let str = routeMapKey.get(activeRoute.value.fullPath)
     if (str != undefined)
       selectedKeys.value = [str];
   }
-} ;
+};
+
 onMounted(() => {
   handleActiveRoute();
-  init();
 })
 </script>
 <style scoped>

@@ -9,16 +9,16 @@ export interface Article {
     /**
      * 文章标题
      */
-    title?: string;
+    title: string;
     /**
      * 文章内容
      */
-    content?: string;
+    content: string;
     /**
      * 文章作者
      */
 
-    authorId?: number;
+    authorId: number;
     /**
      * 文章标签
      */
@@ -37,19 +37,19 @@ export interface Article {
      * 文章点赞数
      */
 
-    thumbNum?: number;
+    thumbNum: number;
     /**
      * 文章评论数
      */
-    commentNum?: number;
+    commentNum: number;
     /**
      * 文章收藏人数
      */
-    favourNum?: number;
+    favourNum: number;
     /**
      * 文章阅读数
      */
-    readNum?: number;
+    readNum: number;
     /**
      * 是否发布
      */
@@ -57,8 +57,8 @@ export interface Article {
     /**
      * 文章作者
      */
-    User?: User;
+    userVO?: User;
 }
 export interface ArticlePageRequest extends PageRequest {
-
+    keyWords?: string;
 }

@@ -13,6 +13,10 @@ export interface PageRequest {
      */
     sortField?:string;
     /**
+     * 排序顺序（默认升序）
+     */
+    sortOrder?:string;
+    /**
      * 总计页数
      */
     pages?:number;
@@ -20,4 +24,8 @@ export interface PageRequest {
      * 总共数据数
      */
     total?:number;
+    /**
+     *
+     */
+    records?:any[];
 }

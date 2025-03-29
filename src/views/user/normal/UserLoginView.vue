@@ -94,7 +94,7 @@ const handleLogin = async () => {
     }
     console.log(token.value)
     // 跳转到主页
-    // await router.push('/home')
+    await router.push('/home')
   } catch (error) {
     Message.error('登录失败，请稍后重试');
   }

@@ -105,13 +105,13 @@ const router = createRouter({
             name: 'testArticleHeader',
             component: TestArticleHeader
         },{
-            path: '/testArticleMain',
-            name: 'testArticleMain',
-            component: ArticleMainDisplay
-        },{
             path: '/testDisplayComment',
             name: 'testDisplayComment',
             component: TestDisplayComment
+        },{
+           path: '/article/:id',
+            name: 'article',
+            component:ArticleMainDisplay
         }
     ],
 })

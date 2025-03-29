@@ -11,7 +11,7 @@
             fill="#262626" p-id="5073"></path>
         </svg>
       </span>
-      <span>{{ viewCount }}</span>
+      <span>{{ readNum }}</span>
     </div>
     <!-- 点赞图标和数量 -->
     <div class="icon-info"  @click="handleLike">
@@ -36,7 +36,7 @@
               fill="#5D5D5D" p-id="18404"></path></svg>
         </template>
       </span>
-      <span>{{ likeCount }}</span>
+      <span>{{ thumbNum }}</span>
     </div>
     <!-- 收藏图标和数量 -->
     <div class="icon-info" @click="handleFavour">
@@ -57,7 +57,7 @@
                 fill="#202425" p-id="27274"></path></svg>
         </template>
       </span>
-      <span>{{ favouredCount }}</span>
+      <span>{{ favourNum }}</span>
     </div>
     <!-- 评论图标和数量 -->
     <div class="icon-info" @click="handleComment">
@@ -81,13 +81,13 @@ import {defineProps} from 'vue';
 
 const props = defineProps<{
   // 观看用户数量
-  viewCount: number;
+  readNum: number;
   // 点赞数量
-  likeCount: number;
+  thumbNum: number;
   // 评论数量
   commentCount: number;
   // 收藏数量
-  favouredCount: number;
+  favourNum: number;
   // 是否点赞
   isLiked: boolean;
   // 是否收藏

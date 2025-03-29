@@ -1,6 +1,6 @@
 import {baseUrl} from "@/utils/baseUrl.ts";
 import {Message} from '@arco-design/web-vue';
-import axios, {type AxiosResponse} from "axios";
+import axios from "axios";
 
 
 const request = axios.create({

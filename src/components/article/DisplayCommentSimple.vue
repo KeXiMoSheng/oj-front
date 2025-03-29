@@ -18,7 +18,6 @@
       <!-- 4. 点赞、收藏、回复信息 -->
       <CommentInteractionSimple
           :likeCount="likeCount"
-          :commentCount="commentCount"
           :isLiked="isLiked"
           @like="handleLike"
           @reply="handleReply"
@@ -42,8 +41,6 @@ const props = defineProps<{
   publishTime: string;
   // 点赞数量
   likeCount: number;
-  // 评论数量
-  commentCount: number;
   // 是否点赞
   isLiked: boolean;
   // 评论内容

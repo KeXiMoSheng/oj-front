@@ -21,23 +21,23 @@
       </div>
       <!-- 4. 观看、点赞、收藏、评论信息 -->
       <InteractionInfo
-          :viewCount="viewCount"
-          :likeCount="likeCount"
-          :favouredCount="favouredCount"
+          :read-num="readNum"
+          :thumbNum="likeCount"
           :commentCount="commentCount"
+          :favour-num="favouredCount"
           :isLiked="isLiked"
           :isFavoured="isFavoured"
           @like="handleLike"
           @favour="handleFavour"
           @comment="handleComment"
-      />
+          />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, computed } from 'vue';
-import { formatPublishTime } from "@/utils/computedTime.ts";
+import {defineProps, computed} from 'vue';
+import {formatPublishTime} from "@/utils/computedTime.ts";
 import InteractionInfo from './InteractionInfo.vue';
 
 // 定义组件的 props
@@ -55,7 +55,7 @@ const props = defineProps<{
   // 点赞数量
   likeCount: number;
   // 观看用户数量
-  viewCount: number;
+  readNum: number;
   // 评论数量
   commentCount: number;
   // 收藏数量
@@ -80,13 +80,13 @@ const displayArticleDescription = computed(() => {
 });
 // 暴露事件
 const emits = defineEmits(['like', 'favour', 'comment']);
-const handleLike =()=>{
+const handleLike = () => {
   emits('like');
 }
-const handleComment =()=>{
+const handleComment = () => {
   emits('comment');
 }
-const handleFavour =()=>{
+const handleFavour = () => {
   emits('favour');
 }
 </script>
@@ -98,6 +98,7 @@ const handleFavour =()=>{
   padding: 16px;
   border-radius: 8px;
   margin-bottom: 16px;
+  cursor: pointer;
 }
 
 .left-module {

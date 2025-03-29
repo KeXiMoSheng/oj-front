@@ -1,5 +1,3 @@
-import type {MyResponse} from "@/api/getQuestion/type.ts";
-
 export interface UserRegisterRequest {
     userName: string;
     userEmail: string;
